@@ -1,0 +1,1 @@
+# variables-de-traducci-n-de-la-Aplicaci-n
