@@ -1,0 +1,144 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="title-ios" text-capitalize>{{ payment_page1 }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list no-margin color="light">
+    <ion-row>
+      <ion-col>
+        <ion-text color="medium">
+          <ion-input clearInput type="text" placeholder="Enter your promo code here" [(ngModel)]="promoCode" class="input" padding-horizontal
+            clear-input="true" [disabled]="!!appliedPromoCode"></ion-input>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button (click)="applyPromoCode(promoCode)" expand="block" [disabled]="!promoCode || !!appliedPromoCode">{{ payment_page2 }}</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="appliedPromoCode" class="promoCodeDiv">
+      <ion-col>
+        <div>
+          {{appliedPromoCode}}{{ payment_page3 }}
+          <ion-icon name="close" float-right (click)="removePromoCode()"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-list-header color="light">
+      <ion-label>{{ payment_page4 }}</ion-label>
+    </ion-list-header>
+    <ion-radio-group>
+      <ion-card *ngFor="let add of dataService.current_user.billing; let i = index;">
+
+        <ion-card-content>
+          <div class="cardContentSection">
+            <ion-radio slot="start" value="{{i}}" checked></ion-radio>
+            <ion-label padding-start>
+              <ion-row class="full" align-items-center>
+                <ion-col size="10">
+                  <ion-row align-items-center>
+                    <p no-margin>
+                      <strong>{{ payment_page5 }}{{add.card_number}}</strong>
+                    </p>
+                  </ion-row>
+                  <ion-row align-items-center>
+                    <p class="small" no-margin>{{ payment_page6 }}{{add.expiry_date}}</p>
+                    <h6 class="small mycolor" *ngIf="i==0" padding-start no-margin>{{ payment_page7 }}</h6>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-label>
+            <img [src]="add.image" class="cardImage">
+          </div>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-radio-group>
+
+
+  </ion-list>
+  <ion-row justify-content-center padding-top padding-bottom>
+    <ion-text color="primary" (click)="addPayment()">
+      {{addNewPayment ? 'Cancel' : 'Add new payment method'}}
+    </ion-text>
+  </ion-row>
+
+  <div *ngIf="addNewPayment" class="add-payment-div contentSection">
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button fill="outline" (click)="SaveCard()" class="saveBtn" float-right>{{ payment_page8 }}</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>
+          <span class="label">{{ payment_page9 }}</span>
+        </ion-text>
+        <ion-input class="input" padding-horizontal type="number" placeholder="Credit/Debit Number"></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>
+          <span class="label">{{ payment_page10 }}</span>
+        </ion-text>
+        <ion-select placeholder="Select Card Type" class="input" [(ngModel)]="cardDetails.cardType">
+          <ion-select-option value="visa">{{ payment_page11 }}</ion-select-option>
+          <ion-select-option value="master">{{ payment_page12 }}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>
+          <span class="label">{{ payment_page13 }}</span>
+        </ion-text>
+        <ion-input class="input" padding-horizontal type="number" placeholder="CVV"></ion-input>
+      </ion-col>
+      <ion-col>
+        <ion-text>
+          <span class="label">{{ payment_page14 }}</span>
+        </ion-text>
+        <ion-input class="input" placeholder="MM/YY" padding-horizontal></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h5 no-margin class="label">{{ payment_page15 }}</h5>
+        <h6 class="small">{{ payment_page16 }}</h6>
+      </ion-col>
+      <ion-col>
+        <ion-input class="input" placeholder="Zip/Postal Code" padding-horizontal></ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="lockSection">
+        <div>
+          <ion-icon name="lock" class="icon" class="lockIcon"></ion-icon>
+        </div>
+        <div class="secureTextSection">
+          <h5 no-margin class="label">{{ payment_page17 }}</h5>
+          <h6 class="small" no-margin>{{ payment_page18 }}</h6>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+
+<ion-footer (click)="done()">
+  <ion-toolbar text-center>
+    <ion-button color="primary" expand="block">{{ payment_page19 }}{{cart.grandTotal}} </ion-button>
+  </ion-toolbar>
+</ion-footer>
